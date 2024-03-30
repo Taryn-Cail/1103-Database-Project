@@ -1,0 +1,109 @@
+-----------ENTITIES------------
+
+create table artist
+	(artist_id	varchar(5),
+	 artist_name	varchar(50) not null,
+	 net_worth	varchar(15),
+	 primary key (artist_id, artist_name)	
+	);
+
+create table song
+	(song_id	varchar(3),
+	 song_name	varchar(50) not null,
+	 artist_name	varchar(50) not null,
+	 duration	numeric(4,2),
+	 playlist_id	numeric(3),
+	 primary key(song_id, song_name)
+	 foreign key(artist_name) references artist(artist_name),
+	 foreign key(playlist_id) references playlist(playlist_id)
+	);
+
+create table playlist
+	(playlist_id	varchar(3),
+	 playlist_name	varchar(50) not null,
+	 num_songs	numeric(10,0),
+	 primary key(playlist_id, playlist_name)
+	);
+
+
+
+
+
+
+------------RELATIONSHIPS----------------------
+
+create table has_song
+	(song_id	varchar(10),
+	 song_name	varchar(50),
+	 playlist_id	varchar(5),
+	 playlist_name	varchar(50) not null,
+	 primary key(song_id, playlist_id),
+	 foreign key(song_id, song_name) references song(song_id, song_name),
+	 foreign key(playlist_id, playlist_name) references playlist(playlist_id, playlist_name)
+	);
+
+
+create table sings_song
+	(song_id	varchar(10),
+	 song_name	varchar(50),
+	 artist_id	varchar(5),
+	 artist_name	varchar(50) not null,
+	 primary key(song_id, artist_id),
+	 foreign key(song_id, song_name) references song(song_id, song_name),
+	 foreign key(artist_id, artist_name) references artist(artist_id, artist_name)
+	);
+
+
+
+
+
+------------INSERT STATEMENTS------------------
+
+
+begin;
+
+insert into song values ( 001, 'Who We Are', 'Hozier', 3.54, 001);
+insert into song values ( 002, 'Nothing Matter', 'The Last Dinner Party', 3.04, 001);
+insert into song values ( 003, 'Growing Sideways', 'Noah Kahan', 4.16, 001);
+insert into song values ( 004, 'Vienna', 'Billy Joel', 3.37, 002);
+insert into song values ( 005, 'Grandpa', 'The Judds', 4.20, 002);
+insert into song values ( 006, 'Silver Springs', 'Fleetwood Mac', 5.34, 002);
+insert into song values ( 007, 'Maneater', 'Daryl Hall and John Oates', 4.25, 002);
+insert into song values ( 008, 'Seventeen Going Under', 'Sam Fender', 5.03, 003);
+insert into song values ( 009, 'Ms Jackson', 'Outkast', 4.31, 003);
+
+insert into playlist values ( 001, 'My Faves', 3);
+insert into playlist values ( 002, 'Old Songs', 4);
+insert into playlist values ( 003, 'Rock', 2);
+
+insert into artist values ( 00001, 'Hozier', '6 million');
+insert into artist values ( 00002, 'The Last Dinner Party', '3.09 million');
+insert into artist values ( 00003, 'Noah Kahan', '5 million');
+insert into artist values ( 00004, 'Billy Joel', '225 million');
+insert into artist values ( 00005, 'The Judds', '12 million');
+insert into artist values ( 00006, 'Fleetwood Mac', '120 million');
+insert into artist values ( 00007, 'Daryl Hall and John Oates', '70 million');
+insert into artist values ( 00008, 'Sam Fender', '10 million');
+insert into artist values ( 00009, 'Outkast', '35 million');
+
+insert into has_song values ( 001, 'Who We Are', 001, 'My Faves');
+insert into has_song values ( 002, 'Nothing Matters', 001, 'My Faves');
+insert into has_song values ( 003, 'Growing Sideways', 001, 'My Faves');
+insert into has_song values ( 004, 'Vienna', 002, 'Old Songs');
+insert into has_song values ( 005, 'Grandpa', 002, 'Old Songs');
+insert into has_song values ( 006, 'Silver Springs', 002, 'Old Songs');
+insert into has_song values ( 007, 'Maneater', 002, 'Old Songs');
+insert into has_song values ( 008, 'Seventeen Going Under', 003, 'Rock');
+insert into has_song values ( 009, 'Ms Jackson', 003, 'Rock');
+
+insert into sings_song values ( 001, 'Who We Are', 00001, 'Hozier');
+insert into sings_song values ( 002, 'Nothing Matters', 00002, 'The Last Dinner Party');
+insert into sings_song values ( 003, 'Growing Sideways', 00003, 'Noah Kahan');
+insert into sings_song values ( 004, 'Vienna', 00004, 'Billy Joel');
+insert into sings_song values ( 005, 'Grandpa', 00005, 'The Judds');
+insert into sings_song values ( 006, 'Silver Springs', 00006, 'Fleetwood Mac');
+insert into sings_song values ( 007, 'Maneater', 00007, 'Daryl Hall and John Oates');
+insert into sings_song values ( 008, 'Seventeen Going Under', 00008, 'Sam Fender');
+insert into sings_song values ( 009, 'Ms Jackson', 00009, 'Outkast');
+
+commit;
